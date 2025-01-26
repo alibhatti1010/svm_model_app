@@ -2,11 +2,11 @@ import joblib
 import streamlit as st
 import pandas as pd
 
-# Load the pre-trained SVM model and scaler
+
 model = joblib.load('svm_model.pkl')
 scaler = joblib.load('scaler.pkl')
 
-# Custom CSS for dark theme
+
 st.markdown(
     """
     <style>
@@ -62,11 +62,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Streamlit app
+
 st.title("🚀 SVM Prediction App")
 st.markdown("Welcome to the **SVM Prediction App**! Enter the input features below to predict whether a user will purchase a product or not.")
 
-# Add a sidebar for additional information
+
 st.sidebar.title("About the App")
 st.sidebar.markdown("""
 This app uses a **Support Vector Machine (SVM)** model to predict whether a user will purchase a product based on their:
@@ -77,33 +77,30 @@ This app uses a **Support Vector Machine (SVM)** model to predict whether a user
 The model was trained by Ali Khalid F2021266006.
 """)
 
-# Input fields for user data
+
 st.header("📝 Input Features")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    gender = st.selectbox("Gender", ["Male", "Female"])  # Categorical input
-
+    gender = st.selectbox("Gender", ["Male", "Female"])  
 with col2:
-    age = st.number_input("Age", min_value=0, max_value=100, value=30)  # Numerical input
+    age = st.number_input("Age", min_value=0, max_value=100, value=30)  
 
 with col3:
-    salary = st.number_input("Estimated Salary", min_value=0, value=50000)  # Numerical input
+    salary = st.number_input("Estimated Salary", min_value=0, value=50000) 
 
-# Encode gender (Male = 1, Female = 0)
 gender_encoded = 1 if gender == "Male" else 0
 
-# Create a DataFrame for the input data
 input_data = pd.DataFrame({
     'Gender': [gender_encoded],
     'Age': [age],
     'EstimatedSalary': [salary]
 })
 
-# Scale the input data using the saved scaler
+# Scale the input data
 input_data_scaled = scaler.transform(input_data)
 
-# Prediction button
+
 if st.button("Predict"):
     prediction = model.predict(input_data_scaled)
     if prediction[0] == 1:
@@ -111,6 +108,6 @@ if st.button("Predict"):
     else:
         st.warning("🚫 Prediction: **Not Purchased**")
 
-# Add a footer
+
 st.markdown("---")
 st.markdown("© 2025 SVM Prediction App. All rights reserved.")
